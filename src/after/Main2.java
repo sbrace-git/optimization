@@ -1,6 +1,7 @@
 package after;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Main2 {
@@ -29,22 +30,22 @@ public class Main2 {
         relationLogs = relationLogs.stream()
                 .collect(Collectors.groupingBy(RelationLog2::groupValue))
                 .values()
-                .stream()
+                .parallelStream()
                 .peek(this::dropSameItem)
                 .flatMap(List::stream)
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
     private void dropSameItem(List<RelationLog2> list) {
-        out: for (int i = 0; i < list.size() - 1; i++) {
+        for (int i = 0; i < list.size() - 1; i++) {
             RelationLog2 outRelationLog2 = list.get(i);
             for (int j = i + 1; j < list.size(); j++) {
                 RelationLog2 inRelationLog2 = list.get(j);
-                if (outRelationLog2.isReversedLog(inRelationLog2)){
+                if (outRelationLog2.isReversedLog(inRelationLog2)) {
                     list.remove(j);
                     list.remove(i);
                     i--;
-                    continue out;
+                    break;
                 }
             }
         }
