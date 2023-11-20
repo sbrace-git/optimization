@@ -46,7 +46,7 @@ public class Main {
 
         if (!delIndexes.isEmpty()) {
             List<Integer> toRemove = new ArrayList<>(delIndexes);
-            //倒叙，方便relationLogs.remove()操作
+            //倒序，方便relationLogs.remove()操作
             Collections.sort(toRemove, Collections.reverseOrder());
             Iterator<Integer> var11 = toRemove.iterator();
             while (var11.hasNext()) {
